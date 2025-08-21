@@ -1,108 +1,90 @@
-from database import get_db_connection
+import discord
+from discord.ext import commands
+from models.task_model import Task
+from utils.embed_utils import create_task_embed
 
-class Task:
-    def __init__(self, task_id=None, project=None, chapter=None, stage=None, 
-                 assigned_to=None, status='Waiting', progress=None, 
-                 deadline=None, notes=None):
-        self.task_id = task_id
-        self.project = project
-        self.chapter = chapter
-        self.stage = stage
-        self.assigned_to = assigned_to
-        self.status = status
-        self.progress = progress
-        self.deadline = deadline
-        self.notes = notes
+class TaskCommands(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
 
-    @staticmethod
-    def create(project, chapter, stage, assigned_to=None, deadline=None):
-        conn = get_db_connection()
-        cursor = conn.cursor()
+    @commands.slash_command(name="claim", description="Claim a task")
+    async def claim(self, ctx, project: str, chapter: str, stage: str):
+        stage = stage.upper()
+        valid_stages = ['TL', 'CL', 'TS', 'QC']
         
-        cursor.execute('''
-            INSERT INTO tasks (project, chapter, stage, assigned_to, deadline)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (project, chapter, stage, assigned_to, deadline))
-        
-        task_id = cursor.lastrowid
-        conn.commit()
-        conn.close()
-        
-        return Task.get_by_id(task_id)
+        if stage not in valid_stages:
+            await ctx.respond("Invalid stage. Valid stages: TL, CL, TS, QC")
+            return
 
-    @staticmethod
-    def get_by_id(task_id):
-        conn = get_db_connection()
-        cursor = conn.cursor()
+        task = Task.get_by_project_chapter_stage(project, chapter, stage)
         
-        cursor.execute('SELECT * FROM tasks WHERE task_id = ?', (task_id,))
-        row = cursor.fetchone()
-        conn.close()
+        if task:
+            if task.assigned_to:
+                await ctx.respond(f"This task is already assigned to <@{task.assigned_to}>")
+                return
+            else:
+                task.assign_to(str(ctx.author.id))
+                task.update_status('In Progress')
+        else:
+            task = Task.create(project, chapter, stage, str(ctx.author.id))
+            task.update_status('In Progress')
         
-        if row:
-            return Task(**dict(row))
-        return None
+        embed = create_task_embed(task)
+        await ctx.respond(f"Task claimed!", embed=embed)
 
-    @staticmethod
-    def get_by_project_chapter_stage(project, chapter, stage):
-        conn = get_db_connection()
-        cursor = conn.cursor()
+    @commands.slash_command(name="submit", description="Submit a completed task")
+    async def submit(self, ctx, project: str, chapter: str, stage: str):
+        stage = stage.upper()
+        task = Task.get_by_project_chapter_stage(project, chapter, stage)
         
-        cursor.execute('''
-            SELECT * FROM tasks 
-            WHERE project = ? AND chapter = ? AND stage = ?
-        ''', (project, chapter, stage))
+        if not task:
+            await ctx.respond("Task not found. Please claim it first.")
+            return
         
-        row = cursor.fetchone()
-        conn.close()
+        if task.assigned_to != str(ctx.author.id):
+            await ctx.respond("You are not assigned to this task.")
+            return
         
-        if row:
-            return Task(**dict(row))
-        return None
+        task.update_status('Done')
+        
+        embed = create_task_embed(task)
+        await ctx.respond(f"Task submitted!", embed=embed)
 
-    @staticmethod
-    def get_user_tasks(user_id):
-        conn = get_db_connection()
-        cursor = conn.cursor()
+    @commands.slash_command(name="tasks", description="Show your assigned tasks")
+    async def tasks(self, ctx, user: discord.Member = None):
+        target_user = user or ctx.author
+        user_tasks = Task.get_user_tasks(str(target_user.id))
         
-        cursor.execute('SELECT * FROM tasks WHERE assigned_to = ?', (user_id,))
-        rows = cursor.fetchall()
-        conn.close()
+        if not user_tasks:
+            await ctx.respond(f"No tasks found for {target_user.mention}")
+            return
         
-        return [Task(**dict(row)) for row in rows]
+        embeds = [create_task_embed(task) for task in user_tasks]
+        
+        for embed in embeds:
+            await ctx.send(embed=embed)
+        
+        await ctx.respond(f"Showing {len(embeds)} tasks for {target_user.mention}")
 
-    @staticmethod
-    def get_all_projects():
-        conn = get_db_connection()
-        cursor = conn.cursor()
+    @commands.slash_command(name="status", description="Show task status")
+    async def status(self, ctx, project: str, chapter: str):
+        tasks = []
+        stages = ['TL', 'CL', 'TS', 'QC', 'Release']
         
-        cursor.execute('SELECT DISTINCT project FROM tasks')
-        rows = cursor.fetchall()
-        conn.close()
+        for stage in stages:
+            task = Task.get_by_project_chapter_stage(project, chapter, stage)
+            if task:
+                tasks.append(task)
         
-        return [row[0] for row in rows]
-
-    def update_status(self, status):
-        self.status = status
-        self._update_field('status', status)
-
-    def update_progress(self, progress):
-        self.progress = progress
-        self._update_field('progress', progress)
-
-    def assign_to(self, user_id):
-        self.assigned_to = user_id
-        self._update_field('assigned_to', user_id)
-
-    def _update_field(self, field, value):
-        conn = get_db_connection()
-        cursor = conn.cursor()
+        if not tasks:
+            await ctx.respond("No tasks found for this project/chapter.")
+            return
         
-        cursor.execute(f'''
-            UPDATE tasks 
-            SET {field} = ?, updated_at = CURRENT_TIMESTAMP 
-            WHERE task_id = ?
-        ''', (value, self.task_id))
+        for task in tasks:
+            embed = create_task_embed(task)
+            await ctx.send(embed=embed)
         
-        conn.commit()
-        conn.close()
+        await ctx.respond(f"Showing status for {project} Chapter {chapter}")
+
+def setup(bot):
+    bot.add_cog(TaskCommands(bot))
