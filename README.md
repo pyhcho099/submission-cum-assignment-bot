@@ -83,7 +83,7 @@ An advanced, enterprise-grade Discord bot meticulously engineered for managing c
 With your virtual environment activated and `.env` configured, run the bot:
 ```bash
 python main.py
-```
+
 You should see log messages indicating the bot is connecting and syncing commands. Once ready, its status will change on Discord.
 
 ## 🎮 Usage Guide
@@ -155,7 +155,7 @@ Access these by typing `/` in any channel the bot can see.
 
 ## 📁 Project Structure
 
-```
+
 psyflixs-staff-bot/
 ├── main.py                 # Entry point to start the bot
 ├── config.py               # Centralized configuration loader (loads from .env)
@@ -177,7 +177,6 @@ psyflixs-staff-bot/
     ├── __init__.py
     ├── parsers.py          # Functions to parse assignment/submission messages
     └── embeds.py           # Functions to create rich Discord embeds for tasks
-```
 
 ## 🤝 Contributing
 
@@ -192,8 +191,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 *   Built with [discord.py](https://github.com/Rapptz/discord.py)
 *   Inspired by the needs of the Psyflixs Scans team.
 
-```
-
----
 
 This `README.md` provides a comprehensive overview for anyone looking to understand, set up, or contribute to your bot. Make sure to replace `yourusername` and `YOUR_INVITE_LINK_HERE` with your actual GitHub username and a Discord invite link for your server (if public or shareable).
