@@ -114,14 +114,65 @@ submission - Fire Train CH 23 | https://drive.google.com/file/d/1a2b3c4d5e6f7g8h
 ```
 The bot will record the submission, update the task, and notify the next person in line.
 
-### 🪄 Slash Commands (`/`)
+### 🪄 **Full Slash Commands Reference**
 
-Type `/` in any channel to see available commands.
+Access these commands by typing `/` in any Discord channel.
 
-*   **`/claim`**: Claim an unassigned task for yourself.
-*   **`/progress`**: Update the progress of your current task (e.g., `5/10`).
-*   **`/profile`**: View or set your timezone.
-*   **`/recruit`** (Admin only): Ping the recruitment role.
+#### **1. Task Management**
+
+*   **`/claim`**
+    *   **Description:** Claim an unassigned task for yourself.
+    *   **Permissions:** All Staff (CTL, JTL, KTL, PR, CLRD, TS, QC)
+    *   **Arguments:**
+        *   `project` (Required, String): The name of the project (e.g., "Fire Train").
+        *   `chapter` (Required, String): The chapter identifier (e.g., "CH 5", "Vol2-Ep8").
+        *   `stage` (Required, String): The workflow stage. Must be one of: `CTL`, `JTL`, `KTL`, `PR`, `CLRD`, `TS`, `QC`.
+    *   **Example:** `/claim project:"Fire Train" chapter:"CH 5" stage:JTL`
+
+*   **`/progress`**
+    *   **Description:** Update the progress of a task you are currently assigned to.
+    *   **Permissions:** All Staff (CTL, JTL, KTL, PR, CLRD, TS, QC)
+    *   **Arguments:**
+        *   `project` (Required, String): The name of the project.
+        *   `chapter` (Required, String): The chapter identifier.
+        *   `stage` (Required, String): The workflow stage of the task you're updating.
+        *   `progress` (Required, String): Your current progress in the format `done/total` (e.g., `3/10`).
+    *   **Example:** `/progress project:"Fire Train" chapter:"CH 5" stage:PR progress:5/10`
+
+#### **2. Profile & Settings**
+
+*   **`/profile`**
+    *   **Description:** View or manage your user profile settings.
+    *   **Permissions:** All Staff
+    *   **Arguments:**
+        *   `action` (Required, Choice): The action to perform.
+            *   `view`: View your current profile information (timezone, reminder preference).
+            *   `timezone`: Open a menu to set your IANA timezone (e.g., "Asia/Tokyo", "America/New_York").
+    *   **Examples:**
+        *   `/profile action:view`
+        *   `/profile action:timezone`
+
+#### **3. Recruitment**
+
+*   **`/recruit`**
+    *   **Description:** Ping the designated recruitment role to announce a need for new staff.
+    *   **Permissions:** Admins only
+    *   **Arguments:**
+        *   `message` (Optional, String): A custom message to send with the ping. Defaults to "We are looking for new members!" if not provided.
+    *   **Examples:**
+        *   `/recruit`
+        *   `/recruit message:"We need more Chinese Translators!"`
+
+---
+
+### 📌 **Command Summary**
+
+| Command | Description | Permissions |
+| :--- | :--- | :--- |
+| **`/claim`** | Claim an unassigned task. | All Staff |
+| **`/progress`** | Update your task progress. | All Staff |
+| **`/profile`** | View or set your profile. | All Staff |
+| **`/recruit`** | Ping the recruitment role. | Admins |
 
 ## 📁 Project Structure
 
@@ -159,4 +210,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## 💬 Get Inspired
 
 Just as games like **World of Warcraft** and **SUPERVIVE** use Discord to build thriving communities, your team can use this bot to build a thriving *workflow*. Discord is where your staff are—this bot is where they get their work done.
-```
