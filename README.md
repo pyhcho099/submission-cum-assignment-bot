@@ -1,7 +1,7 @@
 
 # Psyflixs Staff Bot
 
-[![Discord](https://img.shields.io/discord/000000000000000000?color=5865F2&label=Discord&logo=discord&logoColor=white&style=for-the-badge)]([YOUR_DISCORD_INVITE_LINK](https://discord.gg/yfSzNKHyPX))
+[![Discord](https://img.shields.io/discord/000000000000000000?color=5865F2&label=Discord&logo=discord&logoColor=white&style=for-the-badge)](https://discord.gg/yfSzNKHyPX)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&style=for-the-badge)](https://www.python.org)
 
