@@ -1,195 +1,162 @@
-```markdown
+
 # Psyflixs Staff Bot
 
-[![Discord](https://img.shields.io/discord/000000000000000000?color=7289da&label=Discord&logo=discord&logoColor=ffffff&style=for-the-badge)](YOUR_INVITE_LINK_HERE)
-[![License](https://img.shields.io/github/license/yourusername/psyflixs-staff-bot?style=for-the-badge)](LICENSE)
-![Python Version](https://img.shields.io/badge/python-3.8%2B-blue?style=for-the-badge)
+[![Discord](https://img.shields.io/discord/000000000000000000?color=5865F2&label=Discord&logo=discord&logoColor=white&style=for-the-badge)](YOUR_DISCORD_INVITE_LINK)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&style=for-the-badge)](https://www.python.org)
 
-An advanced, enterprise-grade Discord bot meticulously engineered for managing complex, distributed scanlation workflows with precision. Built to the exact specifications of Psyflixs Scans, it automates task tracking, enforces structured communication, and ensures workflow continuity.
+> **"Where the players are"** — Discord is the central hub for communities. This bot is where the **work** gets done.
 
-## 🚀 Features
+**Psyflixs Staff Bot** is an enterprise-grade workflow automation engine built for the Psyflixs Scans team. It transforms Discord from a simple chat app into a powerful, structured task management system, perfectly aligned with your unique scanlation pipeline: **TL → PR → CLRD → TS → QC → Release**.
 
-*   **Structured Workflow Engine:** Automates the full lifecycle: TL (CTL/JTL/KTL) → PR → CLRD → TS → QC → Release.
-*   **Individual Assignments:** Tasks are assigned to specific users, eliminating noisy role pings. Notifications are direct and targeted.
-*   **External File Link Support:** Seamlessly integrates with Google Drive, Dropbox, Mega, and OneDrive. No Discord file size limits.
-*   **Progress Tracking:** Users can update task progress (e.g., `3/10 pages`) for real-time visibility.
-*   **Rich Task Embeds:** Provides a clear, visual overview of each task's status, assignee, progress, and deadlines directly in Discord.
-*   **Proactive Idle Detection:** Monitors tasks and automatically alerts assigned users if work stalls beyond stage-specific thresholds (e.g., 72h for TL, 24h for QC).
-*   **Timezone Awareness:** Respects global team members. Users can set their timezone for accurate local time displays on deadlines and future reminders.
-*   **Automated Workflow Advancement:** Upon submission, the bot automatically assigns the next stage (e.g., PR after JTL) to the same user or the next role.
-*   **Comprehensive Logging:** All critical actions (assignments, submissions, claims) are timestamped and logged to a dedicated channel for transparency and audit.
-*   **Staff Recruitment:** Admins can easily ping a designated recruitment role to find new team members.
-*   **Secure & Compliant:** Designed with data minimization in mind. Stores only essential Discord IDs and user preferences. GDPR considerations are built-in.
+This bot eliminates manual tracking, enforces clean communication, and ensures your projects move forward efficiently, all without a single role ping. Just as games like **World of Warcraft** and **SUPERVIVE** use Discord to build thriving communities, your team can use this bot to build a thriving *workflow*. Discord is where your staff are—this bot is where they get their work done.
 
-## 🛠️ Setup & Deployment
+## 🚀 Key Features
+
+*   **Precision Individual Assignment:** Tasks are assigned to specific staff members. No more spamming entire roles.
+*   **Google Drive & External File Integration:** Seamlessly link files hosted on Drive, Dropbox, Mega, or OneDrive. No Discord upload limits.
+*   **Structured Message Parsing:** Automates task creation and submission via strict, easy-to-follow formats in dedicated channels.
+*   **Automated Workflow Progression:** When a task is submitted, the next stage (e.g., PR after JTL) is automatically assigned, keeping the pipeline flowing.
+*   **Proactive Idle Detection:** The bot monitors task activity and sends direct alerts to assigned users if a task stalls beyond defined thresholds (e.g., 72h for TL, 24h for QC).
+*   **Rich Task Embeds:** Get a clear, visual overview of every task with status, progress bars, soft targets, and assignment details.
+*   **Progress Tracking:** Staff can update their progress (e.g., `5/10 pages`) to provide real-time updates.
+*   **Timezone-Aware Profiles:** Staff set their timezone so deadlines are displayed in their local time.
+*   **Comprehensive Audit Logging:** Every action (assignment, submission, claim) is logged in a dedicated channel for full transparency.
+*   **Staff Recruitment:** Admins can instantly ping the recruitment role to find new talent.
+
+## 🛠️ Installation & Setup
 
 ### Prerequisites
 
-*   **Python 3.8 or higher**
-*   A Discord account and a server where you have administrative privileges.
+*   **Python 3.8+** installed on your machine or server.
+*   **Discord Developer Access:** You need to create a bot application on the [Discord Developer Portal](https://discord.com/developers/applications).
 
-### 1. Create a Discord Bot Application
+### Step 1: Create Your Discord Bot
 
-1.  Go to the [Discord Developer Portal](https://discord.com/developers/applications).
-2.  Click "New Application". Give it a name (e.g., `Psyflixs Staff Bot`) and click "Create".
-3.  Navigate to the "Bot" tab on the left sidebar.
-4.  Click "Add Bot" and confirm.
-5.  Under "Token", click "Reset Token" and copy the new token. **Keep this token secret.**
-6.  Under "Privileged Gateway Intents", enable `MESSAGE CONTENT INTENT` and `SERVER MEMBERS INTENT`.
-7.  Save your changes.
+1.  Go to the [Discord Developer Portal](https://discord.com/developers/applications) and create a new application.
+2.  Navigate to the **Bot** tab and add a bot to your application.
+3.  **Copy the Bot Token.** This is your bot's password—**keep it secure and never share it publicly.**
+4.  Under **Privileged Gateway Intents**, enable `MESSAGE CONTENT INTENT` and `SERVER MEMBERS INTENT`.
+5.  Save your changes.
 
-### 2. Configure Bot Permissions & Add to Server
+### Step 2: Invite the Bot to Your Server
 
-1.  In the Developer Portal, go to "OAuth2" -> "URL Generator".
-2.  In the "Scopes" section, check `bot` and `applications.commands`.
-3.  In the "Bot Permissions" section, select the following permissions:
-    *   `Send Messages`
-    *   `Send Messages in Threads`
-    *   `Manage Messages` (Optional, for cleaning up commands if needed)
-    *   `Embed Links`
-    *   `Attach Files` (Optional, for future features)
-    *   `Read Message History`
-    *   `Mention Everyone` (This bot uses individual mentions, but good to have)
-    *   `Use Slash Commands`
-4.  Copy the generated URL at the bottom.
-5.  Paste the URL into your browser and follow the prompts to add the bot to your Psyflixs staff server.
+1.  In the Developer Portal, go to **OAuth2** > **URL Generator**.
+2.  Select the scopes: `bot` and `applications.commands`.
+3.  In the **Bot Permissions** section, grant the following:
+    *   `Send Messages`, `Send Messages in Threads`, `Manage Messages`
+    *   `Embed Links`, `Attach Files`, `Read Message History`
+    *   `Use Slash Commands`, `Mention Everyone`
+4.  Copy the generated URL, open it in a browser, and select your Psyflixs staff server to invite the bot.
 
-### 3. Configure the Bot Code
+### Step 3: Configure the Bot
 
-1.  Clone or download this repository to your local machine or server.
+1.  Clone this repository:
     ```bash
     git clone https://github.com/yourusername/psyflixs-staff-bot.git
     cd psyflixs-staff-bot
     ```
-2.  Create a virtual environment (recommended):
+2.  **(Recommended)** Create a virtual environment:
     ```bash
     python -m venv venv
-    # On Windows
+    # Activate on Windows:
     venv\Scripts\activate
-    # On macOS/Linux
+    # Activate on macOS/Linux:
     source venv/bin/activate
     ```
-3.  Install the required Python packages:
+3.  Install the required dependencies:
     ```bash
     pip install -r requirements.txt
     ```
-4.  Create a file named `.env` in the project root directory.
-5.  Copy the contents of `.env.example` into your new `.env` file.
-6.  Open `.env` and replace all the placeholder values with your actual Discord bot token, server (guild) ID, and the IDs of the specific channels and roles you want the bot to interact with.
-    *   **How to get IDs:** In Discord, enable Developer Mode (User Settings -> Advanced -> Developer Mode). Then, right-click on a channel, role, or the server name and select "Copy ID".
+4.  Create a `.env` file in the root directory:
+    ```bash
+    cp .env.example .env  # On macOS/Linux
+    # Or manually create a .env file on Windows
+    ```
+5.  Open `.env` and fill in your specific values:
+    *   `DISCORD_TOKEN`: Paste the token you copied from the Developer Portal.
+    *   `GUILD_ID`: The ID of your Discord server (enable Developer Mode in Discord settings to copy it).
+    *   All `*_CHANNEL` and `*_ROLE` IDs: Copy the IDs of your specific channels and roles from Discord.
 
-### 4. Run the Bot
+### Step 4: Run the Bot
 
-With your virtual environment activated and `.env` configured, run the bot:
+With your environment activated and `.env` configured, start the bot:
 ```bash
 python main.py
-
-You should see log messages indicating the bot is connecting and syncing commands. Once ready, its status will change on Discord.
-
-## 🎮 Usage Guide
-
-The bot primarily operates through two special channels and slash commands.
-
-### 📜 Structured Channel Communication
-
-The bot watches two specific channels for formatted messages. **The format is strict and must be followed exactly.**
-
-#### `#assignments` Channel
-
-To assign a task to a staff member, post a message in the designated `#assignments` channel using this exact format:
-
 ```
-assignment- <@USER_MENTION> | [PROJECT_NAME] CH [CHAPTER_NUMBER] | <#WORK_CHANNEL> | [STAGE]
+The bot will connect, sync its slash commands, and be ready to use.
+
+## 🎮 How to Use
+
+### 📜 Using `#assignments` and `#submission` Channels
+
+The bot watches these channels for messages in a **strict format**. **Pasting the exact example is the best way to avoid errors.**
+
+#### To Assign a Task (`#assignments`)
+Post this message:
 ```
-
-*   **`<@USER_MENTION>`**: The user to assign the task to (e.g., `<@123456789012345678>`).
-*   **`[PROJECT_NAME]`**: The name of the project (e.g., `Fire Train`).
-*   **`CH [CHAPTER_NUMBER]`**: The chapter identifier (e.g., `CH 23`). Volume formats like `Vol2-Ep8` are also supported.
-*   **`<#WORK_CHANNEL>`**: The Discord channel where the work will be done (e.g., `<#987654321098765432>`).
-*   **`[STAGE]`**: The workflow stage. Must be one of: `CTL`, `JTL`, `KTL`, `PR`, `CLRD`, `TS`, `QC`.
-
+assignment- <@USER> | [Project Name] CH [Number] | <#Work Channel> | [Stage]
+```
 **Example:**
 ```
-assignment- <@123456789012345678> | Fire Train CH 23 | <#987654321098765432> | JTL
+assignment- <@1024675887934885938> | Fire Train CH 23 | <#1365758736416772226> | JTL
 ```
+The bot will confirm the assignment and DM the user.
 
-#### `#submission` Channel
-
-When a staff member finishes a task, they post a message in the designated `#submission` channel using this exact format:
-
+#### To Submit a Task (`#submission`)
+Post this message:
 ```
-submission - [PROJECT_NAME] CH [CHAPTER_NUMBER] | [EXTERNAL_FILE_LINK] | [STAGE]
+submission - [Project Name] CH [Number] | [Your Google Drive Link] | [Stage]
 ```
-
-*   **`[PROJECT_NAME]`**: The name of the project.
-*   **`CH [CHAPTER_NUMBER]`**: The chapter identifier.
-*   **`[EXTERNAL_FILE_LINK]`**: A direct link to the file on Google Drive, Dropbox, etc.
-*   **`[STAGE]`**: The workflow stage being submitted.
-
 **Example:**
 ```
 submission - Fire Train CH 23 | https://drive.google.com/file/d/1a2b3c4d5e6f7g8h/view | JTL
 ```
+The bot will record the submission, update the task, and notify the next person in line.
 
 ### 🪄 Slash Commands (`/`)
 
-Access these by typing `/` in any channel the bot can see.
+Type `/` in any channel to see available commands.
 
-*   **`/claim <project> <chapter> <stage>`**
-    *   Allows a staff member to claim an unassigned task for themselves.
-    *   Example: `/claim project:"Fire Train" chapter:"CH 23" stage:JTL`
-
-*   **`/progress <project> <chapter> <stage> <progress>`**
-    *   Allows the assigned user to update the progress of their task (e.g., `5/10`).
-    *   Example: `/progress project:"Fire Train" chapter:"CH 23" stage:JTL progress:5/10`
-
-*   **`/profile <action>`**
-    *   Manage your personal settings.
-    *   Actions:
-        *   `view`: See your current profile (timezone, etc.).
-        *   `timezone`: Set your IANA timezone for accurate local time displays.
-
-*   **`/recruit [message]`** *(Admin Only)*
-    *   Pings the designated recruitment role with a custom message (or a default one).
-    *   Example: `/recruit message:"We need more JTLs!"`
+*   **`/claim`**: Claim an unassigned task for yourself.
+*   **`/progress`**: Update the progress of your current task (e.g., `5/10`).
+*   **`/profile`**: View or set your timezone.
+*   **`/recruit`** (Admin only): Ping the recruitment role.
 
 ## 📁 Project Structure
 
+This modular structure ensures clean, maintainable code.
 
+```
 psyflixs-staff-bot/
-├── main.py                 # Entry point to start the bot
-├── config.py               # Centralized configuration loader (loads from .env)
-├── requirements.txt        # List of Python dependencies
-├── .env.example            # Template for environment variables
-├── .gitignore              # Specifies files/folders to ignore in Git
-├── README.md               # This file
-├── LICENSE                 # (Add your chosen license file)
+├── main.py                 # The main entry point
+├── config.py               # Loads settings from .env
+├── requirements.txt        # Python dependencies
+├── .env.example            # Template for configuration
+├── .gitignore
+├── README.md               # You are here!
+├── LICENSE
 ├── database/
-│   ├── __init__.py
-│   └── models.py           # SQLite database schema and ORM-like functions
+│   └── models.py           # SQLite database operations
 ├── cogs/
-│   ├── __init__.py
-│   ├── task_management.py  # Core logic for assignments, submissions, claims, progress
-│   ├── timezone.py         # Profile and timezone management commands
-│   ├── notifications.py    # Idle task detection and alerting system
-│   └── recruitment.py      # Staff recruitment command
+│   ├── task_management.py  # Core assignment/submission logic
+│   ├── timezone.py         # User profile and timezone commands
+│   ├── notifications.py    # Idle task checker
+│   └── recruitment.py      # Recruit command
 └── utils/
-    ├── __init__.py
-    ├── parsers.py          # Functions to parse assignment/submission messages
-    └── embeds.py           # Functions to create rich Discord embeds for tasks
+    ├── parsers.py          # Validates message formats
+    └── embeds.py           # Generates Discord embeds
+```
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a pull request or open an issue if you find a bug or have a feature suggestion. Ensure your code adheres to the existing style and includes appropriate tests if applicable.
+Found a bug? Have a great idea? We welcome contributions! Please open an issue or submit a pull request. Let's build the best tool for scanlators together.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## 🙏 Acknowledgements
+## 💬 Get Inspired
 
-*   Built with [discord.py](https://github.com/Rapptz/discord.py)
-*   Inspired by the needs of the Psyflixs Scans team.
-
-
-This `README.md` provides a comprehensive overview for anyone looking to understand, set up, or contribute to your bot. Make sure to replace `yourusername` and `YOUR_INVITE_LINK_HERE` with your actual GitHub username and a Discord invite link for your server (if public or shareable).
+Just as games like **World of Warcraft** and **SUPERVIVE** use Discord to build thriving communities, your team can use this bot to build a thriving *workflow*. Discord is where your staff are—this bot is where they get their work done.
+```
