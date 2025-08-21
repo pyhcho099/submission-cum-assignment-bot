@@ -1,0 +1,7 @@
+discord.py==2.4.0
+aiohttp
+sqlite3
+pytz==2024.1
+python-dateutil==2.9.0.post0
+APScheduler==3.10.4 # Using stable version
+python-dotenv==1.0.0
